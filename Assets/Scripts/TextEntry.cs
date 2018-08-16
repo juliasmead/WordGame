@@ -4,11 +4,11 @@ using TMPro;
 
 public class TextEntry : MonoBehaviour
 {
-    private string chars = "AABC";
-
     private TMP_InputField field;
 
     private string oldValue = "";
+
+    public GenerateLetters gl;
 
     private void Awake()
     {
@@ -20,16 +20,16 @@ public class TextEntry : MonoBehaviour
         field.onValueChanged.AddListener(delegate { AddBackChar(); });
     }
 
-    private char ValidateChar(char c)
+	private char ValidateChar(char c)
     {
         c = char.ToUpper(c);
-        if (!chars.Contains(c.ToString()))
+        if (!gl.Letters.Contains(c.ToString()))
         {
             c = '\0';
         }
         else
         {
-            chars =  chars.Remove(chars.IndexOf(c), 1);
+            gl.Letters =  gl.Letters.Remove(gl.Letters.IndexOf(c), 1);
         }
         return c;
     }
@@ -38,7 +38,7 @@ public class TextEntry : MonoBehaviour
     {
         if (oldValue.Length > field.text.Length)
         {
-            chars += oldValue.Remove(oldValue.IndexOf(field.text), field.text.Length);
+            gl.Letters += oldValue.Remove(oldValue.IndexOf(field.text), field.text.Length);
         }
 
         oldValue = field.text;
